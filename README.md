@@ -1,4 +1,5 @@
 # IBMYes
+源项目地址:https://github.com/CCChieh/IBMYes，此处做个备份，修改部分说明，以及多用户测试代码
 
 **测速节点已经停用，无法测试**
 
@@ -84,12 +85,12 @@ IBM Cloud 10天不操作就会关机，所以我们需要 十天内对其重启�
 
 点击又上角的命令行
 
-在这一步我们主要是记录4个值
+在这一步我们主要是记录4个值，建议以下四行复制到记事本里待用
 
  ```
 IBM_ACCOUNT // IBM Cloud的登录邮箱和密码
 IBM_APP_NAME // 应用的名称
-REGION_NUM // 区域编码
+REGION_NUM // 区域编码(默认为7)
 RESOURSE_ID // 资源组ID
  ```
 
@@ -135,7 +136,7 @@ ibmcloud resource groups
 现在返回github，到本项目
 
 ```
-https://github.com/CCChieh/IBMYes
+https://github.com/CCChieh/IBMYes，也可以将我的项目fork，主要加了多用户
 ```
 
 ![image-20200615184239713](img/README/image-20200615184239713.png)
