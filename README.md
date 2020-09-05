@@ -40,7 +40,7 @@
 
 ![image-20200615193340241](img/README/image-20200615193340241.png)
 
-填写应用名称
+填写应用名称,上图的两个圈圈内容需要一致，且后续还要用到，所以建议设置个不太长好记的
 
 接着进入右上角命令行
 
@@ -65,8 +65,8 @@ wget --no-check-certificate -O install.sh https://raw.githubusercontent.com/CCCh
 然后访问我们刚刚的应用的域名，如果不记得可以返回我们刚才的资源，点击访问应用程序
 
 ![image-20200615211851731](img/README/image-20200615211851731.png)
-
-URL后加上生成的WebSocket路径，看到`Bad Request`便成功了
+原文：URL后加上生成的WebSocket路径，看到`Bad Request`便成功了
+修改为：URL直接访问返回`Bad Request`便成功了，因为修改了代码，不使用随机的websocket路径。所以这边直接访问地址就行了
 
 ![image-20200615211949359](img/README/image-20200615211949359.png)
 
@@ -86,7 +86,7 @@ IBM Cloud 10天不操作就会关机，所以我们需要 十天内对其重启�
 
 点击又上角的命令行
 
-在这一步我们主要是记录4个值，建议以下四行复制到记事本里待用
+在这一步我们主要是记录4个值，建议以下四行复制到记事本里待用，新增：如果想用多账户的话，可以简单的再新增4个字段，例如IBM_ACCOUNT1.然后仿造我自己新加的多用户执行命令
 
  ```
 IBM_ACCOUNT // IBM Cloud的登录邮箱和密码
