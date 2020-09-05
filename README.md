@@ -65,8 +65,9 @@ wget --no-check-certificate -O install.sh https://raw.githubusercontent.com/CCCh
 然后访问我们刚刚的应用的域名，如果不记得可以返回我们刚才的资源，点击访问应用程序
 
 ![image-20200615211851731](img/README/image-20200615211851731.png)
-原文：URL后加上生成的WebSocket路径，看到`Bad Request`便成功了
-修改为：URL直接访问返回`Bad Request`便成功了，因为修改了代码，不使用随机的websocket路径。所以这边直接访问地址就行了
+~~原文：URL后加上生成的WebSocket路径，看到`Bad Request`便成功了~~
+
+**_修改为：URL直接访问返回`Bad Request`便成功了，因为修改了代码，不使用随机的websocket路径。所以这边直接访问地址就行了_**
 
 ![image-20200615211949359](img/README/image-20200615211949359.png)
 
@@ -74,11 +75,12 @@ wget --no-check-certificate -O install.sh https://raw.githubusercontent.com/CCCh
 
 把完成安装后输出的配置链接复制到你的v2rayN或v2rayNg中，修改地址为你的应用的域名（前面我们`Bad Request`那个网页的域名。
 
+_**新增说明：将vmess信息复制到V2rayN工具中后，要删除下方的路径中原自动生成的websocket路径，因为实际上并不会去使用，此处用的话，就会出现外网无法访问的问题。_**
+
 ![image-20200615212537944](img/README/image-20200615212537944.png)
 
 至此我们已经有一个可用的v2ray了，但是他每10天会重启一次，而且网速延迟很差，所以接下来会解决这个问题。
 
-_**新增说明：将vmess信息复制到V2rayN工具中后，要删除下方的路径中原自动生成的websocket路径，因为实际上并不会去使用，此处用的话，就会出现外网无法访问的问题。_**
 
 # 利用Github的Actions 每周重启 IBM Cloud Fonudray
 
