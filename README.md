@@ -78,6 +78,8 @@ wget --no-check-certificate -O install.sh https://raw.githubusercontent.com/CCCh
 
 至此我们已经有一个可用的v2ray了，但是他每10天会重启一次，而且网速延迟很差，所以接下来会解决这个问题。
 
+_**新增说明：将vmess信息复制到V2rayN工具中后，要删除下方的路径中原自动生成的websocket路径，因为实际上并不会去使用，此处用的话，就会出现外网无法访问的问题。_**
+
 # 利用Github的Actions 每周重启 IBM Cloud Fonudray
 
 IBM Cloud 10天不操作就会关机，所以我们需要 十天内对其重启一次，避免关机。
@@ -86,7 +88,9 @@ IBM Cloud 10天不操作就会关机，所以我们需要 十天内对其重启�
 
 点击又上角的命令行
 
-在这一步我们主要是记录4个值，建议以下四行复制到记事本里待用，新增：如果想用多账户的话，可以简单的再新增4个字段，例如IBM_ACCOUNT1.然后仿造我自己新加的多用户执行命令
+在这一步我们主要是记录4个值，建议以下四行复制到记事本里待用
+
+新增：如果想用多账户的话，可以简单的再新增4个字段，例如IBM_ACCOUNT1.然后仿造我自己新加的多用户执行命令
 
  ```
 IBM_ACCOUNT // IBM Cloud的登录邮箱和密码
@@ -94,10 +98,11 @@ IBM_APP_NAME // 应用的名称
 REGION_NUM // 区域编码(默认为7)
 RESOURSE_ID // 资源组ID
  ```
-
+![image_20200905132358](img/README/image_20200905132358.png).png
 具体后面会一步一步完成
 
 ![image-20200615175949804](img/README/image-20200615175949804.png)
+多用户如上图所示，这是我自行添加的，薅羊毛还是要过分点
 
 进入命令行先执行
 
@@ -137,7 +142,8 @@ ibmcloud resource groups
 现在返回github，到本项目
 
 ```
-https://github.com/CCChieh/IBMYes，也可以将我的项目fork，主要加了多用户
+https://github.com/CCChieh/IBMYes，（原来的项目据说由于很久没更新，会有问题，所以建议用我的项目）
+https://github.com/yzj0405/IBMYes，主要加了多用户,解决更新错误的bug，若不需要多用户的话，还需要把多余的代码注释掉防止出错
 ```
 
 ![image-20200615184239713](img/README/image-20200615184239713.png)
@@ -152,7 +158,7 @@ https://github.com/CCChieh/IBMYes，也可以将我的项目fork，主要加了�
 
 New secret
 
-分别建立四个secret
+分别建立四个secret，多账号就写多个，然后自己改/.github/workflows/ibm.yml这个路径下的文件
 
 ```
 IBM_ACCOUNT // IBM Cloud的登录邮箱和密码
@@ -160,8 +166,6 @@ IBM_APP_NAME // 应用的名称
 REGION_NUM // 区域编码
 RESOURSE_ID // 资源组ID
 ```
-
-
 
 以`IBM_ACCOUNT`为例![image-20200615184703280](img/README/image-20200615184703280.png)
 
@@ -179,9 +183,45 @@ RESOURSE_ID // 资源组ID
 
 如果没有看见Action的话到自己仓库的`/.github/workflows/ibm.yml`
 
+
+若采用我的项目，且为单用户的话，需要将45行以后的内容注释掉。若采用原版的需要将38行的代码修改为：  ./IBM_Cloud_CLI/ibmcloud cf install -v 6.51.0，据说是版本问题会导致失败，但是我看最近已经
+更新为./IBM_Cloud_CLI/ibmcloud cf install -f,不知道有没有解决，大家可以试试。
+
 ![image-20200615235426917](img/README/image-20200615235426917.png)
 
 编辑下，随意增添个空行然后commit下
+
+如果要使用多账号的话，可以新增如下的代码，就是将上面的复制粘贴下来。
+    #测试多账号执行
+
+    - name: Init
+      run: |
+        chmod -R 777 ./IBM_Cloud_CLI/
+        ./IBM_Cloud_CLI/ibmcloud config --check-version=false
+    - name: Login IBM Cloud
+      env:
+        IBM_ACCOUNT: ${{ secrets.IBM_ACCOUNT1 }}
+        REGION_NUM: ${{ secrets.REGION_NUM1 }}
+      run: |
+        ./IBM_Cloud_CLI/ibmcloud login <<EOF
+        $IBM_ACCOUNT
+        $REGION_NUM
+        no
+        EOF
+    - name: Target IBM Cloud
+      env:
+        RESOURSE_ID: ${{ secrets.RESOURSE_ID1 }}
+      run: |
+        ./IBM_Cloud_CLI/ibmcloud target -g "$RESOURSE_ID"
+        ./IBM_Cloud_CLI/ibmcloud target --cf
+        ./IBM_Cloud_CLI/ibmcloud cf install -v 6.51.0
+    - name: Restart IBM Cloud
+      env:
+        IBM_APP_NAME: ${{ secrets.IBM_APP_NAME1 }}
+      run: |
+        ./IBM_Cloud_CLI/ibmcloud cf restart "$IBM_APP_NAME"
+
+其中的${{ secrets.XXXXXXX1 }}，就是其他账号了。
 
 ![image-20200615235540567](img/README/image-20200615235540567.png)
 
